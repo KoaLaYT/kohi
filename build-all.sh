@@ -26,4 +26,4 @@ fi
 
 popd
 
-echo "All assemblies built successfully."
+echo "All assemblies built successfully.\n"

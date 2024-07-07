@@ -1,5 +1,6 @@
 #include "application.h"
 
+#include "kmemory.h"
 #include "logger.h"
 #include "platform/platform.h"
 
@@ -64,6 +65,10 @@ b8 application_create(game* game_inst)
 
 b8 application_run()
 {
+    // memory leaked, but not care.
+    char* mem_stats = get_memory_usage_str();
+    KINFO(mem_stats);
+
     while (app_state.is_running) {
         if (!platform_pump_messages(&app_state.platform)) {
             app_state.is_running = FALSE;

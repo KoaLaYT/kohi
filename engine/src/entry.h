@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/application.h"
+#include "core/kmemory.h"
 #include "core/logger.h"
 #include "game_types.h"
 
@@ -9,6 +10,8 @@ extern b8 create_game(game* out_game);
 
 int main(void)
 {
+    initialize_memory();
+
     // Request the game instance from the application.
     game game_inst;
 
@@ -25,7 +28,7 @@ int main(void)
 
     // Initialization.
     if (!application_create(&game_inst)) {
-        KINFO("Application failed to create!.");
+        KFATAL("Application failed to create!.");
         return 1;
     }
 

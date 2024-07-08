@@ -1,5 +1,6 @@
 #include "application.h"
 
+#include "event.h"
 #include "kmemory.h"
 #include "logger.h"
 #include "platform/platform.h"
@@ -27,7 +28,7 @@ b8 application_create(game* game_inst)
     app_state.game_inst = game_inst;
 
     // Initialize subsystems.
-    initialize_logging();
+    logging_initialize();
 
     // TODO: Remove this
     KFATAL("A test message: %f", 3.14f);
@@ -39,6 +40,12 @@ b8 application_create(game* game_inst)
 
     app_state.is_running = TRUE;
     app_state.is_suspended = FALSE;
+
+    if (!event_initialize()) {
+        KERROR(
+            "Event system failed initialization. Application cannot continue.");
+        return FALSE;
+    }
 
     if (!platform_startup(&app_state.platform,
                           app_state.game_inst->app_config.name,
@@ -90,6 +97,8 @@ b8 application_run()
 
     app_state.is_running = FALSE;
     platform_shutdown(&app_state.platform);
+    event_shutdown();
+    logging_shutdown();
 
     return TRUE;
 }

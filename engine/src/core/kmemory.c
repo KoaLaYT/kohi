@@ -20,8 +20,8 @@ static const char* memory_tag_strings[MEMORY_TAG_MAX_TAGS] = {
 
 static struct memory_stats stats;
 
-void initialize_memory() { platform_zero_memory(&stats, sizeof(stats)); }
-void shutdown_memory() {}
+void memory_initialize() { platform_zero_memory(&stats, sizeof(stats)); }
+void memory_shutdown() {}
 
 void* kallocate(u64 size, memory_tag tag)
 {

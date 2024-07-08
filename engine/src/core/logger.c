@@ -9,13 +9,13 @@
 #include <string.h>
 #include <time.h>
 
-b8 initialize_logging()
+b8 logging_initialize()
 {
     // TODO: create log file.
     return TRUE;
 }
 
-void shutdown_logging()
+void logging_shutdown()
 {
     // TODO: cleanup logging/write queued entries.
 }

@@ -1,2 +1,2 @@
--std=c11
+-std=gnu2x
 -Isrc

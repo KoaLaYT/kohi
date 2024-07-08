@@ -10,7 +10,7 @@ extern b8 create_game(game* out_game);
 
 int main(void)
 {
-    initialize_memory();
+    memory_initialize();
 
     // Request the game instance from the application.
     game game_inst;

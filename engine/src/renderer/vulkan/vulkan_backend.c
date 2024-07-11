@@ -4,6 +4,8 @@
 #include "core/kmemory.h"
 #include "core/kstring.h"
 #include "core/logger.h"
+#include "vulkan/vulkan_core.h"
+#include "vulkan_platform.h"
 #include "vulkan_types.h"
 
 // static Vulkan context
@@ -135,6 +137,14 @@ b8 vulkan_renderer_backend_initialize(renderer_backend* backend,
     KDEBUG("Vulkan debugger created.");
 #endif
 
+    // Surface
+    KDEBUG("Creating Vulkan surface...");
+    if (!platform_create_vulkan_surface(plat_state, &context)) {
+        KERROR("Failed to create platform surface!");
+        return FALSE;
+    }
+    KDEBUG("Vulkan surface created.");
+
     KINFO("Vulkan renderer initialized successfully.");
     return TRUE;
 }
@@ -150,6 +160,7 @@ void vulkan_renderer_backend_shutdown(renderer_backend* backend)
     }
 
     KDEBUG("Destroying Vulkan instance...");
+    vkDestroySurfaceKHR(context.instance, context.surface, context.allocator);
     vkDestroyInstance(context.instance, context.allocator);
 }
 

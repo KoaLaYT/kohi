@@ -7,6 +7,9 @@
 #include "core/input.h"
 #include "core/logger.h"
 
+#include "renderer/vulkan/vulkan_platform.h"
+#include "renderer/vulkan/vulkan_types.h"
+
 #include <mach/mach_time.h>
 
 #import <Cocoa/Cocoa.h>
@@ -23,6 +26,7 @@ typedef struct internal_state {
     NSWindow* window;
     ContentView* view;
     CAMetalLayer* layer;
+    VkSurfaceKHR surface;
     b8 quit_flagged;
 } internal_state;
 
@@ -461,6 +465,21 @@ void platform_sleep(u64 ms)
     }
     usleep((ms % 1000) * 1000);
 #endif
+}
+
+b8 platform_create_vulkan_surface(struct platform_state* plat_state, struct vulkan_context* context)
+{
+    // Simply cold-cast to the known type.
+    internal_state* state = (internal_state*)plat_state->internal_state;
+
+    VkMetalSurfaceCreateInfoEXT create_info = {VK_STRUCTURE_TYPE_METAL_SURFACE_CREATE_INFO_EXT};
+    create_info.pLayer = state->layer;
+
+    VK_CHECK(vkCreateMetalSurfaceEXT(context->instance, &create_info, context->allocator,
+                                     &state->surface));
+
+    context->surface = state->surface;
+    return TRUE;
 }
 
 keys translate_keycode(u32 ns_keycode)

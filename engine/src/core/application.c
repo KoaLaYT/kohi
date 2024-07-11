@@ -6,6 +6,7 @@
 #include "kmemory.h"
 #include "logger.h"
 #include "platform/platform.h"
+#include "renderer/renderer_frontend.h"
 
 typedef struct application_state {
     game* game_inst;
@@ -67,6 +68,12 @@ b8 application_create(game* game_inst)
                           app_state.game_inst->app_config.start_pos_y,
                           app_state.game_inst->app_config.start_width,
                           app_state.game_inst->app_config.start_height)) {
+        return FALSE;
+    }
+
+    // Renderer startup
+    if (!renderer_initialize(game_inst->app_config.name, &app_state.platform)) {
+        KFATAL("Failed to initialize renderer. Aborting application.");
         return FALSE;
     }
 
@@ -157,6 +164,8 @@ b8 application_run()
     event_shutdown();
 
     input_shutdown();
+
+    renderer_shutdown();
 
     platform_shutdown(&app_state.platform);
     logging_shutdown();

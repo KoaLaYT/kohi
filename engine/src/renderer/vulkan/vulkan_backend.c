@@ -4,6 +4,7 @@
 #include "core/kmemory.h"
 #include "core/kstring.h"
 #include "core/logger.h"
+#include "renderer/vulkan/vulkan_device.h"
 #include "vulkan/vulkan_core.h"
 #include "vulkan_platform.h"
 #include "vulkan_types.h"
@@ -144,6 +145,12 @@ b8 vulkan_renderer_backend_initialize(renderer_backend* backend,
         return FALSE;
     }
     KDEBUG("Vulkan surface created.");
+
+    // Device creation.
+    if (!vulkan_device_create(&context)) {
+        KERROR("Failed to create device!");
+        return FALSE;
+    }
 
     KINFO("Vulkan renderer initialized successfully.");
     return TRUE;

@@ -185,6 +185,10 @@ const char** platform_get_required_extension_names()
     const char** ext_names = darray_create(const char*);
     darray_push(ext_names, &VK_KHR_SURFACE_EXTENSION_NAME);
 
+#ifdef KPLATFORM_WINDOWS
+    darray_push(ext_names, &VK_KHR_WIN32_SURFACE_EXTENSION_NAME);
+#endif
+
 #ifdef KPLATFORM_APPLE
     darray_push(ext_names, &VK_EXT_METAL_SURFACE_EXTENSION_NAME);
     darray_push(ext_names, &VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);

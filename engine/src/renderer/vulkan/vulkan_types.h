@@ -6,6 +6,9 @@
 #ifdef KPLATFORM_APPLE
 #define VK_USE_PLATFORM_METAL_EXT
 #endif
+#ifdef KPLATFORM_WINDOWS
+#define VK_USE_PLATFORM_WIN32_KHR
+#endif
 #include <vulkan/vulkan.h>
 
 typedef struct vulkan_context {

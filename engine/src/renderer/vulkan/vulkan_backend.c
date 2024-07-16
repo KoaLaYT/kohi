@@ -158,6 +158,16 @@ b8 vulkan_renderer_backend_initialize(renderer_backend* backend,
 
 void vulkan_renderer_backend_shutdown(renderer_backend* backend)
 {
+    KDEBUG("Destroying Vulkan device...");
+    vulkan_device_destroy(&context);
+
+    KDEBUG("Destroying Vulkan surface...");
+    if (context.surface) {
+        vkDestroySurfaceKHR(context.instance, context.surface,
+                            context.allocator);
+        context.surface = 0;
+    }
+
     KDEBUG("Destroying Vulkan debugger...");
     if (context.debug_messenger) {
         PFN_vkDestroyDebugUtilsMessengerEXT func =
@@ -166,10 +176,7 @@ void vulkan_renderer_backend_shutdown(renderer_backend* backend)
         func(context.instance, context.debug_messenger, context.allocator);
     }
 
-    vulkan_device_destroy(&context);
-
     KDEBUG("Destroying Vulkan instance...");
-    vkDestroySurfaceKHR(context.instance, context.surface, context.allocator);
     vkDestroyInstance(context.instance, context.allocator);
 }
 

@@ -36,6 +36,8 @@ b8 application_create(game* game_inst)
     }
 
     app_state.game_inst = game_inst;
+    app_state.width = game_inst->app_config.start_width;
+    app_state.height = game_inst->app_config.start_height;
 
     // Initialize subsystems.
     logging_initialize();
@@ -171,6 +173,12 @@ b8 application_run()
     logging_shutdown();
 
     return TRUE;
+}
+
+void application_get_framebuffer_size(u32* width, u32* height)
+{
+    *width = app_state.width;
+    *height = app_state.height;
 }
 
 b8 application_on_event(u16 code, void* sender, void* listener_inst,

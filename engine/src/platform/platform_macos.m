@@ -70,8 +70,9 @@ keys translate_keycode(u32 ns_keycode);
     event_context context;
     const NSRect contentRect = [state->view frame];
     const NSRect framebufferRect = [state->view convertRectToBacking:contentRect];
-    context.data.u16[0] = (u16)framebufferRect.size.width;
-    context.data.u16[1] = (u16)framebufferRect.size.height;
+    u8 scale = state->window.screen.backingScaleFactor;
+    context.data.u16[0] = (u16)framebufferRect.size.width / scale;
+    context.data.u16[1] = (u16)framebufferRect.size.height / scale;
     event_fire(EVENT_CODE_RESIZED, 0, context);
 }
 
@@ -90,8 +91,9 @@ keys translate_keycode(u32 ns_keycode);
     event_context context;
     const NSRect contentRect = [state->view frame];
     const NSRect framebufferRect = [state->view convertRectToBacking:contentRect];
-    context.data.u16[0] = (u16)framebufferRect.size.width;
-    context.data.u16[1] = (u16)framebufferRect.size.height;
+    u8 scale = state->window.screen.backingScaleFactor;
+    context.data.u16[0] = (u16)framebufferRect.size.width / scale;
+    context.data.u16[1] = (u16)framebufferRect.size.height / scale;
     event_fire(EVENT_CODE_RESIZED, 0, context);
 
     [state->window deminiaturize:nil];

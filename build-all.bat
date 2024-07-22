@@ -3,15 +3,12 @@ REM Build Everything
 
 ECHO "Building everything..."
 
-
-PUSHD engine
-CALL build.bat
-POPD
+REM Engine
+make -f "Makefile.engine.windows.mak"
 IF %ERRORLEVEL% NEQ 0 (echo Error:%ERRORLEVEL% && exit)
 
-PUSHD testbed
-CALL build.bat
-POPD
+REM testbed
+make -f "Makefile.testbed.windows.mak"
 IF %ERRORLEVEL% NEQ 0 (echo Error:%ERRORLEVEL% && exit)
 
 ECHO "All assemblies built successfully."

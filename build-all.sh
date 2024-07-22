@@ -4,9 +4,7 @@ set echo on
 
 echo "Building everything..."
 
-
-pushd engine
-source build.sh
+make -f Makefile.engine.macos.mak all
 
 ERRORLEVEL=$?
 if [ $ERRORLEVEL -ne 0 ]
@@ -16,8 +14,8 @@ fi
 
 popd
 
-pushd testbed
-source build.sh
+make -f Makefile.testbed.macos.mak all
+
 ERRORLEVEL=$?
 if [ $ERRORLEVEL -ne 0 ]
 then
